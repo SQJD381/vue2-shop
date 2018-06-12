@@ -58,8 +58,7 @@
       <li>
         <a
           href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
+          target="_blank"        >
           vuex
         </a>
       </li>
