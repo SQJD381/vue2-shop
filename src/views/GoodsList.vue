@@ -2,7 +2,7 @@
     <div class="hello">
       <body>
       <nav-header></nav-header>
-      <nav-breader></nav-breader>
+      <nav-bread></nav-bread>
       <div class="accessory-result-page">
         <div class="container">
           <div class="filter-nav">
@@ -29,7 +29,7 @@
                 <ul>
                   <li  v-for="item in goodsList">
                     <div class="pic">
-                      <a href="#"><img v-lazy="'/static/' + item.productImage" alt=""></a>
+                      <a href="#"><img v-lazy="'/static/' + item.productImage" alt=""><!--<img v-bind:src="'/static/' + item.productImage" alt="">--></a>
                     </div>
                     <div class="main">
                       <div class="name">{{item.productName}}</div>
@@ -56,7 +56,7 @@
     import './../assets/css/goods-list.css'
     import  NavHeader from '../components/NavHeader.vue'
     import NavFooter from "../components/NavFooter.vue"
-    import NavBreader from "../components/NavBreader.vue"
+    import NavBread from "../components/NavBread.vue"
     import axios from "axios"
     export default {
         name: 'GoodsList',
@@ -94,13 +94,13 @@
               overLayFlag: false
             }
         },
-      mounted(){
+      mounted(){  //使用生命周期函数调用
         this.getGoodsList ();
       },
         components:{
           NavHeader,
           NavFooter,
-          NavBreader
+          NavBread
         },
       methods:{
         getGoodsList (){
