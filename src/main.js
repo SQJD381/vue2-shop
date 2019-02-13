@@ -9,7 +9,8 @@ Vue.config.productionTip = false
 
 Vue.use(VueLazyload,{
   loading:'static/loading-svg/loading-bars.svg',
-  try:3
+  //try:3
+  attempt:3
 })
 
 /* eslint-disable no-new */
