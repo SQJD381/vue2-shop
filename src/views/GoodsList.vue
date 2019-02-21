@@ -105,9 +105,9 @@
       methods:{
         getGoodsList (){
           axios.get("/goods").then((result) => {
-            console.log(result.data)
-            var res = result.data.data;
-            this.goodsList = res.result;
+            console.log(result.data.result)
+            var res = result.data;
+            this.goodsList = res.result.list;
           })
         },
         setPriceFilter(index){

@@ -11,17 +11,17 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 const express = require('express')
 const app = express()
-const goodsData = require('../mock/goods.json')//加载本地数据文件
-const  router = express.Router()
+//const goodsData = require('../mock/goods.json')//加载本地数据文件
+//const  router = express.Router()
 //app.use('/api', apiRoutes)
 
-router.get("/hello",function(req,res,next){
+/*router.get("/hello",function(req,res,next){
   res.end("hello old song")
 })
 router.get("/goods",function(req,res,next){
   res.json(goodsData)
 })
-app.use(router)
+app.use(router)*/
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
@@ -41,14 +41,14 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         { from: /.*/, to: path.posix.join(config.dev.assetsPublicPath, 'index.html') },
       ],
     },
-    before(app) {
+   /* before(app) {
       app.get("/goods",(req,res)=>{
         res.json({
         errno: 0,
         data: goodsData
       })//接口返回json数据，上面配置的数据appData就赋值给data请求后调用
     })
-    },
+    },*/
     hot: true,
     contentBase: false, // since we use CopyWebpackPlugin.
     compress: true,
