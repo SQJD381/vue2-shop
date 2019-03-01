@@ -104,7 +104,21 @@
              //   msg: 'Welcome to Your NavHeader'
             }
         },
+      mounted(){
+        this.checkLogin();
+      },
       methods: {
+        checkLogin(){
+          axios.get("/users/checkLogin").then((response)=>{
+            var res = response.data;
+            if(res.status=="0"){
+              this.nickName = res.result;
+              this.loginModalFlag = false;
+            }else{
+
+            }
+          });
+        },
         login(){
           if(!this.userName || !this.userPwd){
             this.errorTip = true;
@@ -132,7 +146,8 @@
             }
           })
         }
-      }
+      },
+
     }
 
 </script>
