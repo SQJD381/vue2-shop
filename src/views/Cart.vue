@@ -205,6 +205,29 @@
           }
         });
       },
+      editCart(flag, item){
+        if(flag=='add'){
+          item.productNum++;
+        }else if(flag=='minu'){
+          if(item.productNum<=1){
+            return;
+          }
+          item.productNum--;
+        }else{
+          item.checked = item.checked=="1"?'0':'1';
+        }
+
+        axios.post("/users/cartEdit",{
+          productId:item.productId,
+          productNum:item.productNum,
+          checked:item.checked
+        }).then((response)=>{
+          let res = response.data;
+          if(res.status=='0'){
+            console.log("update suc");
+          }
+        })
+      },
     }
   }
 
