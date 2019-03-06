@@ -153,7 +153,9 @@
   export  default {
     data(){
       return{
-        cartList:[]
+        cartList:[],
+        delItem:{},
+        modalConfirm:false
       }
     },
     mounted(){
@@ -182,6 +184,25 @@
           let res = response.data;
           console.log(res.result)
           this.cartList = res.result;
+        });
+      },
+      closeModal(){
+        this.modalConfirm = false;
+      },
+      delCartConfirm(item){
+        this.delItem = item;
+        this.modalConfirm = true;
+      },
+      delCart(){
+        axios.post("/users/cartDel",{
+          productId:this.delItem.productId
+        }).then((response)=>{
+          let res = response.data;
+          if(res.status == '0'){
+            this.modalConfirm = false;
+            var delCount = this.delItem.productNum;
+            this.init();
+          }
         });
       },
     }
