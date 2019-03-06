@@ -2,7 +2,7 @@
     <div class="hello">
       <body>
       <nav-header></nav-header>
-      <nav-bread></nav-bread>
+      <nav-bread>商品列表</nav-bread>
       <div class="accessory-result-page">
         <div class="container">
           <div class="filter-nav">
@@ -213,6 +213,7 @@
         },
         closeModal(){
           this.mdShow = false;
+          this.mdShowCart = false;
         },
         showFilterPop(){
           this.filterBy = true;
