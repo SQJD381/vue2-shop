@@ -132,11 +132,16 @@
         </div>
       </div>
     </div>
-
+    <Modal :mdShow="modalConfirm" @close="closeModal">
+      <p slot="message">你确认要删除此条数据吗?</p>
+      <div slot="btnGroup">
+        <a class="btn btn--m" href="javascript:;" @click="delCart">确认</a>
+        <a class="btn btn--m btn--red" href="javascript:;" @click="modalConfirm = false">关闭</a>
+      </div>
+    </Modal>
     <nav-footer></nav-footer>
   </div>
 </template>
-
 <script>
   import './../assets/css/base.css'
   import './../assets/css/checkout.css'
@@ -144,15 +149,45 @@
   import NavBread from './../components/NavBread.vue'
   import NavFooter from './../components/NavFooter.vue'
   import Modal from './../components/Modal'
-  import axios from 'axios'
-    export default {
-        name: 'HelloWorld',
-        data() {
-            return {
-                msg: 'Welcome to Cart'
-            }
-        }
+  import  axios from 'axios'
+  export  default {
+    data(){
+      return{
+        cartList:[]
+      }
+    },
+    mounted(){
+      this.init();
+    },
+    components:{
+      NavHeader,
+      NavBread,
+      NavFooter,
+      Modal
+    },
+    computed:{
+      totalPrice(){
+        var money = 0;
+        this.cartList.forEach((item)=>{
+          if(item.checked == "1"){
+            money +=parseFloat(item.salePrice)*parseInt(item.productNum)
+          }
+        })
+        return money;
+      }
+    },
+    methods:{
+      init(){
+        axios.get("/users/cartList").then((response)=>{
+          let res = response.data;
+          console.log(res.result)
+          this.cartList = res.result;
+        });
+      },
     }
+  }
+
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
