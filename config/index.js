@@ -16,6 +16,9 @@ module.exports = {
       },
       '/users':{
         target:'http://localhost:3000/'
+      },
+      '/address':{
+        target:'http://localhost:3000/'
       }
     },
 
