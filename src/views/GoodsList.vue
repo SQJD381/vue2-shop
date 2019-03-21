@@ -33,7 +33,7 @@
                     </div>
                     <div class="main">
                       <div class="name">{{item.productName}}</div>
-                      <div class="price">{{item.salePrice}}</div>
+                      <div class="price">{{item.salePrice |currency('￥')}}</div>
                       <div class="btn-area">
                         <a href="javascript:;" class="btn btn--m" @click="addCart(item.productId)">加入购物车</a>
                       </div>
@@ -89,6 +89,7 @@
     import NavBread from "../components/NavBread.vue"
     import axios from "axios"
     import  Modal  from './../components/Modal'
+    import {currency} from './../util/currency'
     export default {
         name: 'GoodsList',
         data() {
@@ -134,6 +135,9 @@
         },
       mounted(){  //使用生命周期函数调用
         this.getGoodsList ();
+      },
+      filters:{
+        currency:currency
       },
         components:{
           NavHeader,
