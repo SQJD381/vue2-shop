@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import VueLazyload from 'vue-lazyload'
 import infiniteScroll from  'vue-infinite-scroll'
+import axios from 'axios'
+import Vuex from 'vuex'
 
 Vue.config.productionTip = false
 
