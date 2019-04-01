@@ -79,7 +79,7 @@
                   </div>
                 </div>
                 <div class="cart-tab-2">
-                  <div class="item-price">{{item.salePrice}}</div>
+                  <div class="item-price">{{item.salePrice|currency('￥')}}</div>
                 </div>
                 <div class="cart-tab-3">
                   <div class="item-quantity">
@@ -185,8 +185,8 @@
       totalPrice(){
         var money = 0;
         this.cartList.forEach((item)=>{
-          if(item.checked == "1"){
-            money +=parseFloat(item.salePrice)*parseInt(item.productNum)
+          if(item.checked=='1'){
+            money += parseFloat(item.salePrice)*parseInt(item.productNum);
           }
         })
         return money;
@@ -196,7 +196,7 @@
       init(){
         axios.get("/users/cartList").then((response)=>{
           let res = response.data;
-          console.log(res.result)
+       //   console.log(res.result)
           this.cartList = res.result;
         });
       },
@@ -215,6 +215,7 @@
           if(res.status == '0'){
             this.modalConfirm = false;
             var delCount = this.delItem.productNum;
+            this.$store.commit("updateCartCount",-delCount);
             this.init();
           }
         });
@@ -237,8 +238,8 @@
           checked:item.checked
         }).then((response)=>{
           let res = response.data;
-          if(res.status=='0'){
-            console.log("update suc");
+        if(res.status=="0"){
+          this.$store.commit("updateCartCount",flag=="add"?1:-1);
           }
         })
       },
@@ -257,13 +258,13 @@
           }
         })
       },
-      checkOut(){
-        if(this.checkedCount>0){
-          this.$router.push({
-            path:"/address"
-          });
-        }
-      },
+            checkOut(){
+                if(this.checkedCount>0){
+                    this.$router.push({
+                    path:"/address"
+                  });
+                }
+            }
     }
   }
 

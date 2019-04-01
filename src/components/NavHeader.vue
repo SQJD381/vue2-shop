@@ -38,7 +38,7 @@
               <a href="javascript:void(0)" class="navbar-link"  @click="loginModalFlag=true" v-if="!nickName">登录</a>
               <a href="javascript:void(0)" class="navbar-link" @click="logOut" v-else>登出</a>
               <div class="navbar-cart-container">
-                <span class="navbar-cart-count"></span>
+                <span class="navbar-cart-count" v-text="cartCount" v-if="cartCount"></span>
                 <a class="navbar-link" href="/#/cart">
                   <svg class="navbar-cart-logo">
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-cart"></use>
@@ -90,68 +90,80 @@
 
 
 <script>
-    import './../assets/css/login.css'
-    import  axios from 'axios'
-    export default {
-        name: 'NavHeader',
-        data() {
-            return {
-                userName:'admin',
-              userPwd:'123456',
-              errorTip:false,
-              loginModalFlag:false,
-              nickName:'',
-             //   msg: 'Welcome to Your NavHeader'
-            }
-        },
-      mounted(){
-        this.checkLogin();
-      },
-      methods: {
-        checkLogin(){
-          axios.get("/users/checkLogin").then((response)=>{
-            var res = response.data;
-            if(res.status=="0"){
-              this.nickName = res.result;
-              this.loginModalFlag = false;
-            }else{
+  import './../assets/css/login.css'
+  import axios from 'axios'
+  import { mapState } from 'vuex'
+  export default {
+//        name: 'NavHeader_Song',
+    data() {
+      return{
+        userName:'admin',
+        userPwd:'123456',
+        errorTip:false,
+        loginModalFlag:false
+      }
+    },
+    computed: {
+      ...mapState(['nickName','cartCount'])
+    },
+    mounted(){
+      this.checkLogin();
+    },
+    methods: {
+      checkLogin(){
+        axios.get("/users/checkLogin").then((response)=>{
+          var res = response.data;
+          var path = this.$route.pathname;
 
+          if(res.status=="0"){
+//                      this.nickName = res.result;
+            this.$store.commit("updateUserInfo",res.result);
+            this.loginModalFlag = false;
+          }else{
+            if(this.$route.path!="/goods"){
+              this.$router.push("/goods");
             }
-          });
-        },
-        login(){
-          if(!this.userName || !this.userPwd){
-            this.errorTip = true;
-            return;
           }
-          axios.post("/users/login",{
-            userName:this.userName,
-            userPwd:this.userPwd
-          }).then((response)=>{
-            let res = response.data;
-            if(res.status=="0"){
-              this.errorTip = false;
-              this.loginModalFlag = false;
-              this.nickName = res.result.userName;
-            }else{
-              this.errorTip = true;
-            }
-          });
-        },
-        logOut(){
-          axios.post("/users/logout").then((response)=>{
-            let res = response.data;
-            if(res.status=="0"){
-              this.nickName = '';
-            }
-          })
-        }
+        });
       },
-
+      login(){
+        if(!this.userName || !this.userPwd){
+          this.errorTip = true;
+          return;
+        }
+        axios.post("/users/login",{
+          userName:this.userName,
+          userPwd:this.userPwd
+        }).then((response)=>{
+          let res = response.data;
+          if(res.status=="0"){
+            this.errorTip = false;
+            this.loginModalFlag = false;
+            this.$store.commit("updateUserInfo",res.result.userName);
+            this.getCartCount();
+          }else{
+            this.errorTip = true;
+          }
+        });
+      },
+      logOut(){
+        axios.post("/users/logout").then((response)=>{
+          let res = response.data;
+          if(res.status=="0"){
+            this.nickName = '';
+          }
+        })
+      },
+      getCartCount(){
+        axios.get("users/getCartCount").then(res=>{
+          var res = res.data;
+     //     alert(res.result)
+          this.$store.commit("updateCartCount",res.result);
+        });
+      }
     }
-
+  }
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped>
